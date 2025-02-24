@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package package_one;
+
+import "package_two/simple.proto";
+
+service CrossPackageService {
+    rpc CrossPackage (PackageOneRequest) returns (package_two.PackageTwoResponse);
+}
+
+message PackageOneRequest {
+    uint32 id = 1;
+    string name = 2;
+}

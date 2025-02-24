@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package package_one;
+
+import "google/protobuf/struct.proto";
+import "google/protobuf/empty.proto";
+import "package_two/struct_two.proto";
+import "package_two/simple.proto";
+
+service NestedService {
+    rpc SimpleNested (SimpleNestedRequest) returns (SimpleNestedResponse);
+    rpc DeepNested (DeepNestedRequest) returns (DeepNestedResponse);
+    rpc ProcessSimpleArray (google.protobuf.Empty) returns (SimpleMessageArrayResponse);
+    rpc ProcessNestedArray (google.protobuf.Empty) returns (NestedMessageArrayResponse);
+}
+
+message SimpleNestedRequest {
+    string title = 1;
+    google.protobuf.Struct settings = 2;
+}
+
+message SimpleNestedResponse {
+    uint32 id = 1;
+    google.protobuf.Struct settings = 2;
+}
+
+message DeepNestedRequest {
+    google.protobuf.Struct metadata = 1;
+    StructMessage nested = 2;
+    message DeepSubMessage {
+        google.protobuf.Struct settings = 1;
+    }
+    DeepSubMessage deep_nested = 3;
+}
+
+message DeepNestedResponse {
+    PackageTwoStructMessage external_nested = 4;
+}
+
+message SimpleMessageArrayResponse {
+    repeated PackageTwoResponse data = 1;
+}
+
+message NestedMessageArrayResponse {
+    repeated StructMessage data = 1;
+}
+
+message StructMessage {
+    google.protobuf.Struct settings = 1;
+}
+
+
+
+
