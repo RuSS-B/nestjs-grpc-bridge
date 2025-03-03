@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { GrpcOptions, Transport } from '@nestjs/microservices';
 import { ReflectionService } from '@grpc/reflection';
-import { readdirSync } from 'node:fs';
-import { join } from 'node:path';
 import { PackageDefinition } from '@grpc/proto-loader';
 import { PackageDefinitionService } from '../services/package-definition';
+import { ProtoPathHelper } from '../common/utils/proto-path.helper';
 
 interface IOptions {
   usePackageDefinitionService?: boolean;
@@ -12,6 +11,7 @@ interface IOptions {
   protoDir: string;
   packageName: string;
   url: string;
+  loader?: GrpcOptions['options']['loader'];
 }
 
 @Injectable()
@@ -20,30 +20,17 @@ export class GrpcOptionsProvider {
     private readonly grpcPackageDefinitionService: PackageDefinitionService,
   ) {}
 
-  getOptions(
-    options: IOptions = {
-      usePackageDefinitionService: false,
-      useReflectionService: true,
-      protoDir: join(__dirname, '../../proto'),
-      packageName: '',
-      url: '0.0.0.0:50051',
-    },
-  ): GrpcOptions {
+  getOptions(options: IOptions): GrpcOptions {
     const packageName = options.packageName;
 
     return {
       transport: Transport.GRPC,
       options: {
-        loader: {
-          longs: Number,
-          arrays: true,
-          objects: true,
-          includeDirs: [options.protoDir],
-        },
+        loader: options.loader,
         gracefulShutdown: true,
         url: options.url,
         package: packageName,
-        protoPath: this.getProtoPath(packageName, options.protoDir),
+        protoPath: ProtoPathHelper.readProtoDir(packageName, options.protoDir),
         onLoadPackageDefinition: (pkg: PackageDefinition, server) => {
           if (options.usePackageDefinitionService) {
             this.grpcPackageDefinitionService.setPackageDefinition(
@@ -58,13 +45,5 @@ export class GrpcOptionsProvider {
         },
       },
     };
-  }
-
-  private getProtoPath(packageName: string, protoDir: string): string[] {
-    const fullPath = join(protoDir, packageName);
-
-    return readdirSync(fullPath)
-      .filter((f) => f.endsWith('proto'))
-      .map((f) => join(fullPath, f));
   }
 }
