@@ -8,8 +8,6 @@ import { ClientGrpc } from '@nestjs/microservices';
 import { join } from 'path';
 import { ProtoPathHelper } from '../../../common/utils';
 import { ClientDefinitionReader } from './client-definition.reader';
-import { FieldTransformer } from '../../../transformers';
-import { StructToJsonTransformer } from '../../../transformers/struct-to-json.transformer';
 
 const packageName = 'package_one';
 const protoDir = join(__dirname, '..', '..', '..', '..', 'test', 'protos');
@@ -79,58 +77,5 @@ describe('ClientDefinitionReader with real NestJS gRPC clients', () => {
       .getRequestFields();
 
     expect(requestFields).toBeDefined();
-  });
-
-  it('should correctly output request fields', () => {
-    const userService = client.getService<any>('NestedService');
-
-    const requestFields = clientDef
-      .getService('NestedService')
-      .getMethod('simpleNested')
-      .getRequestFields();
-
-    const requestData = {
-      id: 999999,
-      key: 'rabbitmq',
-      settings: {
-        fields: {
-          port: {
-            numberValue: 5672,
-          },
-          vhost: {
-            stringValue: '/',
-          },
-          hostname: {
-            stringValue: 'rabbitmq-dev-int.local',
-          },
-          password: {
-            stringValue: 'SOME VALUE',
-          },
-          protocol: {
-            stringValue: 'amqp',
-          },
-          username: {
-            stringValue: 'client',
-          },
-          heartbeat: {
-            numberValue: 600,
-          },
-        },
-      },
-      env: 'DEV',
-    };
-
-    const transformedData = FieldTransformer.traverseAndTransform(
-      requestData,
-      requestFields,
-      [StructToJsonTransformer],
-    );
-
-    expect(transformedData?.settings).toBeDefined();
-    expect(transformedData?.settings?.hostname).toEqual(
-      'rabbitmq-dev-int.local',
-    );
-    expect(transformedData?.settings?.heartbeat).toEqual(600);
-    expect(transformedData?.settings?.password).toEqual('SOME VALUE');
   });
 });

@@ -64,6 +64,11 @@
       "import": "./dist/transformers/index.js",
       "require": "./dist/transformers/index.js",
       "types": "./dist/transformers/index.d.ts"
+    },
+    "./proxies": {
+      "import": "./dist/proxies/index.js",
+      "require": "./dist/proxies/index.js",
+      "types": "./dist/proxies/index.d.ts"
     }
   },
   "typesVersions": {
@@ -79,6 +84,9 @@
       ],
       "transformers": [
         "dist/transformers/index.d.ts"
+      ],
+      "proxies": [
+        "dist/proxies/index.d.ts"
       ]
     }
   },

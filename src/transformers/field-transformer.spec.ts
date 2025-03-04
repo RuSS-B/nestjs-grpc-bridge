@@ -1,6 +1,7 @@
 import { FieldTransformer } from './field-transformer';
 import { ITransformer } from './transformer.interface';
 import { FieldType } from '../enums/field-type.enum';
+import { StructToJsonTransformer } from './struct-to-json.transformer';
 
 class DoubleTransformer implements ITransformer {
   type = FieldType.UINT32;
@@ -108,6 +109,137 @@ describe('FieldTransformer', () => {
 
       expect(result.keep).toBe(1);
       expect(result.transform).toBe(4);
+    });
+
+    it('should do', () => {
+      const requestFields = [
+        {
+          name: 'data',
+          extendee: '',
+          number: 1,
+          label: 'LABEL_REPEATED',
+          type: 'TYPE_MESSAGE',
+          typeName: 'Secret',
+          defaultValue: '',
+          options: null,
+          oneofIndex: 0,
+          jsonName: '',
+          fields: [
+            {
+              name: 'id',
+              extendee: '',
+              number: 1,
+              label: 'LABEL_OPTIONAL',
+              type: 'TYPE_UINT32',
+              typeName: '',
+              defaultValue: '',
+              options: null,
+              oneofIndex: 0,
+              jsonName: '',
+            },
+            {
+              name: 'key',
+              extendee: '',
+              number: 2,
+              label: 'LABEL_OPTIONAL',
+              type: 'TYPE_STRING',
+              typeName: '',
+              defaultValue: '',
+              options: null,
+              oneofIndex: 0,
+              jsonName: '',
+            },
+            {
+              name: 'value',
+              extendee: '',
+              number: 3,
+              label: 'LABEL_OPTIONAL',
+              type: 'TYPE_MESSAGE',
+              typeName: 'google.protobuf.Struct',
+              defaultValue: '',
+              options: null,
+              oneofIndex: 0,
+              jsonName: '',
+            },
+            {
+              name: 'env',
+              extendee: '',
+              number: 4,
+              label: 'LABEL_OPTIONAL',
+              type: 'TYPE_STRING',
+              typeName: '',
+              defaultValue: '',
+              options: null,
+              oneofIndex: 0,
+              jsonName: '',
+            },
+            {
+              name: 'description',
+              extendee: '',
+              number: 5,
+              label: 'LABEL_OPTIONAL',
+              type: 'TYPE_STRING',
+              typeName: '',
+              defaultValue: '',
+              options: null,
+              oneofIndex: 0,
+              jsonName: '',
+            },
+          ],
+        },
+      ];
+
+      const requestData = {
+        data: [
+          {
+            id: 999999,
+            key: 'rabbitmq',
+            value: {
+              fields: {
+                port: {
+                  numberValue: 5672,
+                },
+                vhost: {
+                  stringValue: '/',
+                },
+                hostname: {
+                  stringValue: 'rabbitmq-dev-int.local',
+                },
+                password: {
+                  stringValue: 'SOME VALUE',
+                },
+                protocol: {
+                  stringValue: 'amqp',
+                },
+                username: {
+                  stringValue: 'client',
+                },
+                heartbeat: {
+                  numberValue: 600,
+                },
+              },
+            },
+            env: 'DEV',
+          },
+        ],
+      };
+
+      const { data } = FieldTransformer.traverseAndTransform(
+        requestData,
+        requestFields,
+        [StructToJsonTransformer],
+      );
+
+      const transformedData = data[0];
+
+      expect(transformedData?.id).toBe(999999);
+      expect(transformedData?.env).toBe('DEV');
+      expect(transformedData?.value).toBeDefined();
+      expect(transformedData?.value?.hostname).toEqual(
+        'rabbitmq-dev-int.local',
+      );
+      expect(transformedData?.value?.heartbeat).toEqual(600);
+      expect(transformedData?.value?.password).toEqual('SOME VALUE');
     });
   });
 });
