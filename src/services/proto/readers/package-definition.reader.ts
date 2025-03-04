@@ -1,11 +1,11 @@
 import { PackageDefinition } from '@grpc/proto-loader';
+import { IPackageDefinition } from './interfaces';
+import { ServiceReader } from './service.reader';
 import {
   IFieldDescriptor,
   IMessageDescriptor,
   MessageDefinitionMap,
-} from '../interfaces';
-import { IPackageDefinition } from './interfaces';
-import { ServiceReader } from './service.reader';
+} from '../../../interfaces';
 
 export class PackageDefinitionReader {
   private readonly messageTypes: MessageDefinitionMap;

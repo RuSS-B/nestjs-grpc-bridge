@@ -1,0 +1,5 @@
+export enum FieldLabel {
+  OPTIONAL = 'LABEL_OPTIONAL',
+  REQUIRED = 'LABEL_REQUIRED',
+  REPEATED = 'LABEL_REPEATED',
+}

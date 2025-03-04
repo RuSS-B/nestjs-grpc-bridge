@@ -1,6 +1,6 @@
 {
   "name": "@russ-b/nestjs-grpc-bridge",
-  "version": "0.0.1",
+  "version": "0.0.8",
   "description": "NestJS and gRPC bridge",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -40,17 +40,45 @@
   "peerDependencies": {
     "typeorm": "^0.3.20"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RuSS-B/nestjs-grpc-bridge.git"
+  },
   "exports": {
-    "./filters": "./dist/filters/index.js",
-    "./common/*": "./dist/common/*/index.js"
+    "./common/utils": {
+      "import": "./dist/common/utils/index.js",
+      "require": "./dist/common/utils/index.js",
+      "types": "./dist/common/utils/index.d.ts"
+    },
+    "./filters": {
+      "import": "./dist/filters/index.js",
+      "require": "./dist/filters/index.js",
+      "types": "./dist/filters/index.d.ts"
+    },
+    "./providers": {
+      "import": "./dist/providers/index.js",
+      "require": "./dist/providers/index.js",
+      "types": "./dist/providers/index.d.ts"
+    },
+    "./transformers": {
+      "import": "./dist/transformers/index.js",
+      "require": "./dist/transformers/index.js",
+      "types": "./dist/transformers/index.d.ts"
+    }
   },
   "typesVersions": {
     "*": {
+      "common/utils": [
+        "dist/common/utils/index.d.ts"
+      ],
       "filters": [
         "dist/filters/index.d.ts"
       ],
-      "common": [
-        "dist/common/*/index.d.ts"
+      "providers": [
+        "dist/providers/index.d.ts"
+      ],
+      "transformers": [
+        "dist/transformers/index.d.ts"
       ]
     }
   },

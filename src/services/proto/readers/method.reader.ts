@@ -1,5 +1,5 @@
-import { IFieldDescriptor } from '../interfaces';
 import { IServiceMethodDescriptor } from './interfaces';
+import { IFieldDescriptor } from '../../../interfaces';
 
 export class MethodReader {
   constructor(private readonly def: IServiceMethodDescriptor) {}

@@ -1,4 +1,4 @@
-import { IMessageDescriptor } from '../../interfaces';
+import { IMessageDescriptor } from '../../../../interfaces';
 
 export interface IServiceMethodDescriptor {
   path: string;

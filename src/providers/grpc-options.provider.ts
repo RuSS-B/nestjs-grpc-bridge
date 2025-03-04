@@ -3,7 +3,7 @@ import { GrpcOptions, Transport } from '@nestjs/microservices';
 import { ReflectionService } from '@grpc/reflection';
 import { PackageDefinition } from '@grpc/proto-loader';
 import { PackageDefinitionService } from '../services/package-definition';
-import { ProtoPathHelper } from '../common/utils/proto-path.helper';
+import { ProtoPathHelper } from '../common/utils';
 
 interface IOptions {
   usePackageDefinitionService?: boolean;

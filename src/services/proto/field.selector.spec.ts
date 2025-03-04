@@ -1,5 +1,7 @@
 import { FieldSelector } from './field.selector';
-import { FieldLabel, FieldType, IFieldDescriptor } from './interfaces';
+import { FieldType } from '../../enums/field-type.enum';
+import { FieldLabel } from '../../enums/field-label.enum';
+import { IFieldDescriptor } from '../../interfaces';
 
 // Helper function to create a full IFieldDescriptor
 const createFieldDescriptor = (

@@ -1,9 +1,6 @@
-import {
-  FieldType,
-  IFieldDescriptor,
-  IFoundField,
-  MessageDefinitionMap,
-} from './interfaces';
+import { IFoundField } from './interfaces';
+import { FieldType } from '../../enums/field-type.enum';
+import { IFieldDescriptor, MessageDefinitionMap } from '../../interfaces';
 
 export class FieldSelector {
   constructor(
