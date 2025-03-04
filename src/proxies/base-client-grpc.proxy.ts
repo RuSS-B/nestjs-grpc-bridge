@@ -25,11 +25,11 @@ export class BaseClientGrpcProxy extends ClientGrpcProxy {
         return (...args: any[]) => {
           return target[p](...args).pipe(
             map((response: any) => {
-              FieldTransformer.traverseAndTransform(response, responseFields, [
-                StructToJsonTransformer,
-              ]);
-
-              return response;
+              return FieldTransformer.traverseAndTransform(
+                response,
+                responseFields,
+                [StructToJsonTransformer],
+              );
             }),
           );
         };
