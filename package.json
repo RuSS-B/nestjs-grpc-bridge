@@ -1,6 +1,6 @@
 {
   "name": "@russ-b/nestjs-grpc-bridge",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "NestJS and gRPC bridge",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -69,6 +69,11 @@
       "import": "./dist/proxies/index.js",
       "require": "./dist/proxies/index.js",
       "types": "./dist/proxies/index.d.ts"
+    },
+    "./exceptions": {
+      "import": "./dist/exceptions/index.js",
+      "require": "./dist/exceptoins/index.js",
+      "types": "./dist/exceptions/index.d.ts"
     }
   },
   "typesVersions": {
@@ -87,6 +92,9 @@
       ],
       "proxies": [
         "dist/proxies/index.d.ts"
+      ],
+      "exceptions": [
+        "dist/exceptions/index.d.ts"
       ]
     }
   },
