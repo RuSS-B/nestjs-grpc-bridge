@@ -1,6 +1,6 @@
 {
   "name": "@russ-b/nestjs-grpc-bridge",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "NestJS and gRPC bridge",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -38,7 +38,8 @@
     "typescript-eslint": "^8.24.0"
   },
   "peerDependencies": {
-    "typeorm": "^0.3.20"
+    "typeorm": "^0.3.20",
+    "class-validator": "^0.14.0"
   },
   "repository": {
     "type": "git",
@@ -54,6 +55,11 @@
       "import": "./dist/filters/index.js",
       "require": "./dist/filters/index.js",
       "types": "./dist/filters/index.d.ts"
+    },
+    "./dto": {
+      "import": "./dist/dto/index.js",
+      "require": "./dist/dto/index.js",
+      "types": "./dist/dto/index.d.ts"
     },
     "./providers": {
       "import": "./dist/providers/index.js",
@@ -86,6 +92,9 @@
       ],
       "providers": [
         "dist/providers/index.d.ts"
+      ],
+      "dto": [
+        "dist/dto/index.d.ts"
       ],
       "transformers": [
         "dist/transformers/index.d.ts"
