@@ -75,12 +75,28 @@ class ClientMethodDefinition {
 
   private extractFields(
     fields: ReadonlyArray<IFieldDescriptor>,
+    visitedTypes: Set<string> = new Set(),
   ): ReadonlyArray<NestedFieldDescriptor> {
     return fields.map((field) => {
+      const typeName = field.typeName;
+
+      // Prevent infinite recursion for self-referential types
+      if (typeName && visitedTypes.has(typeName)) {
+        return field;
+      }
+
       const nestedFields = this.messageDefinitionMap.get(field.typeName);
-      return nestedFields
-        ? { ...field, fields: this.extractFields(nestedFields) }
-        : field;
+
+      if (nestedFields) {
+        visitedTypes.add(typeName); // Mark type as visited
+
+        return {
+          ...field,
+          fields: this.extractFields(nestedFields, visitedTypes),
+        };
+      }
+
+      return field;
     });
   }
 }
